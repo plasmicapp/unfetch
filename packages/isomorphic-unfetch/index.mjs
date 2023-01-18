@@ -1,10 +1,8 @@
 function r(m) {
 	return (m && m.default) || m;
 }
-export default global.fetch =
-	global.fetch ||
-	(typeof process == "undefined"
-		? function (url, opts) {
+export default fetch = (typeof process == "undefined"
+		? global.fetch || function (url, opts) {
 				return import("unfetch").then((m) => r(m)(url, opts));
 		  }
 		: function (url, opts) {
