@@ -83,7 +83,7 @@ describe('isomorphic-unfetch', () => {
 	});
 
 	describe('"main" entry in NodeJS', () => {
-		it('should resolve to fetch when window.fetch exists', () => {
+		it('should resolve to node-fetch (changed from upstream for Plasmic) when window.fetch exists', () => {
 			let sandbox = {
 				process: {},
 				global: { fetch },
@@ -95,7 +95,7 @@ describe('isomorphic-unfetch', () => {
 			let filename = require.resolve('../packages/isomorphic-unfetch');
 			vm.runInNewContext(fs.readFileSync(filename), sandbox, filename);
 
-			expect(sandbox.module.exports('/')).toBe('this is fetch');
+			expect(sandbox.module.exports('/')).toBe('this is node-fetch');
 		});
 
 		it('should resolve to node-fetch when window.fetch does not exist', () => {
