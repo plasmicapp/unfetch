@@ -87,7 +87,7 @@ describe("isomorphic-unfetch", () => {
 	});
 
 	describe('"main" entry in NodeJS', () => {
-		it("should resolve to fetch when window.fetch exists", async () => {
+		it("should resolve to node-fetch (changed from upstream for Plasmic) when window.fetch exists", async () => {
 			let sandbox = {
 				process: {},
 				global: { fetch },
@@ -117,7 +117,7 @@ describe("isomorphic-unfetch", () => {
 
 			const ns = mod.namespace;
 
-			expect(await ns.default("/")).toBe("this is fetch");
+			expect(await ns.default("/")).toBe("this is node-fetch");
 		});
 
 		it("should resolve to node-fetch when window.fetch does not exist", async () => {
