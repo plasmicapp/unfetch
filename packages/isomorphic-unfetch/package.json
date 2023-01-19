@@ -1,6 +1,6 @@
 {
-  "name": "isomorphic-unfetch",
-  "version": "4.0.1",
+  "name": "@plasmicapp/isomorphic-unfetch",
+  "version": "1.0.0",
   "description": "Switches between unfetch & node-fetch for client & server.",
   "exports": {
     ".": {
