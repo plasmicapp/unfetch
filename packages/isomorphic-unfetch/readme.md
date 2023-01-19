@@ -2,6 +2,12 @@
 
 Switches between [unfetch](https://github.com/developit/unfetch) & [node-fetch](https://github.com/bitinn/node-fetch) for client & server.
 
+Fork differences:
+1. On Node, `node-fetch` is always used instead of `global.fetch`.
+This is a workaround this [`undici` bug](https://github.com/nodejs/undici/issues/1776)
+which is negatively affecting many versions of Node and Next.js.
+2. Don't polyfill, leave `global.fetch` alone.
+
 ## Install
 
 This project uses [node](http://nodejs.org) and [npm](https://npmjs.com). Go check them out if you don't have them locally installed.
