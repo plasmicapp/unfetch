@@ -1,18 +1,29 @@
 import fs from 'fs';
 import vm from 'vm';
 
+const fetch = () => 'this is fetch';
+const unfetch = () => 'this is unfetch';
+const nodeFetch = {
+	default: () => 'this is node-fetch'
+};
+
+const modules = {
+	unfetch,
+	'node-fetch': nodeFetch
+};
+function customRequire(module) {
+	return modules[module];
+}
+
 describe('isomorphic-unfetch', () => {
 	describe('"browser" entry', () => {
 		it('should resolve to fetch when window.fetch exists', () => {
-			function fetch() { return this; }
-			function unfetch() {}
-
 			let sandbox = {
 				process: undefined,
 				window: { fetch },
 				fetch,
 				exports: {},
-				require: () => unfetch
+				require: customRequire
 			};
 			sandbox.global = sandbox.self = sandbox.window;
 			sandbox.module = { exports: sandbox.exports };
@@ -23,13 +34,11 @@ describe('isomorphic-unfetch', () => {
 		});
 
 		it('should resolve to unfetch when window.fetch does not exist', () => {
-			function unfetch() {}
-
 			let sandbox = {
 				process: undefined,
 				window: {},
 				exports: {},
-				require: () => unfetch
+				require: customRequire
 			};
 			sandbox.global = sandbox.self = sandbox.window;
 			sandbox.module = { exports: sandbox.exports };
@@ -42,15 +51,12 @@ describe('isomorphic-unfetch', () => {
 
 	describe('"main" entry', () => {
 		it('should resolve to fetch when window.fetch exists', () => {
-			function fetch() { return this; }
-			function unfetch() {}
-
 			let sandbox = {
 				process: undefined,
 				window: { fetch },
 				fetch,
 				exports: {},
-				require: () => unfetch
+				require: customRequire
 			};
 			sandbox.global = sandbox.self = sandbox.window;
 			sandbox.module = { exports: sandbox.exports };
@@ -61,13 +67,11 @@ describe('isomorphic-unfetch', () => {
 		});
 
 		it('should resolve to unfetch when window.fetch does not exist', () => {
-			function unfetch() {}
-
 			let sandbox = {
 				process: undefined,
 				window: {},
 				exports: {},
-				require: () => unfetch
+				require: customRequire
 			};
 			sandbox.global = sandbox.self = sandbox.window;
 			sandbox.module = { exports: sandbox.exports };
@@ -78,43 +82,35 @@ describe('isomorphic-unfetch', () => {
 		});
 	});
 
-
 	describe('"main" entry in NodeJS', () => {
 		it('should resolve to fetch when window.fetch exists', () => {
-			function fetch() { return this; }
-			function unfetch() {}
-
 			let sandbox = {
 				process: {},
 				global: { fetch },
 				exports: {},
-				require: () => unfetch
-			};
-			sandbox.module = { exports: sandbox.exports };
-			let filename = require.resolve('../packages/isomorphic-unfetch');
-			vm.runInNewContext(fs.readFileSync(filename), sandbox, filename);
-
-			expect(sandbox.module.exports).toBe(fetch);
-		});
-
-		it('should resolve to unfetch when window.fetch does not exist', () => {
-			let modules = {
-				unfetch() {},
-				'node-fetch': function nodeFetch() { return 'I AM NODE-FETCH'; }
-			};
-
-			let sandbox = {
-				process: {},
-				global: {},
-				exports: {},
-				require: (module) => modules[module]
+				require: customRequire
 			};
 			sandbox.global.process = sandbox.process;
 			sandbox.module = { exports: sandbox.exports };
 			let filename = require.resolve('../packages/isomorphic-unfetch');
 			vm.runInNewContext(fs.readFileSync(filename), sandbox, filename);
 
-			expect(sandbox.module.exports('/')).toBe(modules['node-fetch']('/'));
+			expect(sandbox.module.exports('/')).toBe('this is fetch');
+		});
+
+		it('should resolve to node-fetch when window.fetch does not exist', () => {
+			let sandbox = {
+				process: {},
+				global: {},
+				exports: {},
+				require: customRequire
+			};
+			sandbox.global.process = sandbox.process;
+			sandbox.module = { exports: sandbox.exports };
+			let filename = require.resolve('../packages/isomorphic-unfetch');
+			vm.runInNewContext(fs.readFileSync(filename), sandbox, filename);
+
+			expect(sandbox.module.exports('/')).toBe('this is node-fetch');
 		});
 	});
 });
