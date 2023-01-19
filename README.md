@@ -1,3 +1,22 @@
+# @plasmicapp/isomorphic-unfetch
+
+https://www.npmjs.com/package/@plasmicapp/isomorphic-unfetch
+
+This is Plasmic's fork of `isomorphic-unfetch` (`unfetch` is untouched).
+
+Fork differences:
+1. On Node, `node-fetch` is always used instead of `global.fetch`.
+This is a workaround this [`undici` bug](https://github.com/nodejs/undici/issues/1776)
+which is negatively affecting many versions of Node and Next.js.
+2. Don't polyfill, leave `global.fetch` alone.
+
+You can find the changes in the 4.x and 5.x branches.
+**The 4.x branch is published as `@plasmicapp/isomorphic-unfetch@1.0.1`.**
+The 5.x branch is NOT used because it depends on `node-fetch@3`,
+which is difficult to use with non-ESM builds.
+
+# unfetch
+
 <p align="center">
   <img src="https://i.imgur.com/0cSIPzP.png" width="300" height="300" alt="unfetch">
   <br>
@@ -6,8 +25,6 @@
   <a href="https://www.npmjs.com/package/unfetch"><img src="https://img.shields.io/npm/dt/unfetch.svg" alt="downloads" ></a>
   <a href="https://travis-ci.org/developit/unfetch"><img src="https://travis-ci.org/developit/unfetch.svg?branch=master" alt="travis"></a>
 </p>
-
-# unfetch
 
 > Tiny 500b fetch "barely-polyfill"
 
