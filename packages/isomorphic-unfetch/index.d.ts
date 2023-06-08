@@ -4,7 +4,7 @@ import {
   Request as NodeRequest,
   Response as NodeResponse,
   RequestInit as NodeRequestInit
-} from "node-fetch";
+} from "node-fetch-cjs";
 
 declare namespace unfetch {
   export type IsomorphicHeaders = Headers | NodeHeaders;

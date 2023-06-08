@@ -1,6 +1,6 @@
 {
   "name": "@plasmicapp/isomorphic-unfetch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Switches between unfetch & node-fetch for client & server.",
   "files": [
     "index.js",
@@ -13,7 +13,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "node-fetch": "^2.6.1",
+    "node-fetch-cjs": "^3.2.10",
     "unfetch": "^4.2.0"
   }
 }
