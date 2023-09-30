@@ -1,19 +1,28 @@
 {
   "name": "@plasmicapp/isomorphic-unfetch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Switches between unfetch & node-fetch for client & server.",
   "files": [
     "index.js",
     "index.d.ts",
-    "browser.js"
+    "browser.js",
+    "dist/server.js"
   ],
+  "scripts": {
+    "prepare": "yarn build",
+    "build": "patch-package && esbuild server.js --bundle --platform=node --outfile=dist/server.js"
+  },
   "license": "MIT",
   "repository": "developit/unfetch",
   "browser": "browser.js",
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "node-fetch-cjs": "^3.2.10",
     "unfetch": "^4.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.4",
+    "node-fetch-cjs": "^3.2.10",
+    "patch-package": "^8.0.0"
   }
 }

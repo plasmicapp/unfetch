@@ -7,6 +7,7 @@ Fork differences:
 This is a workaround this [`undici` bug](https://github.com/nodejs/undici/issues/1776)
 which is negatively affecting many versions of Node and Next.js.
 2. Don't polyfill, leave `global.fetch` alone.
+3. Applies a patch on node-fetch-cjs to [this node-fetch bug](https://github.com/node-fetch/node-fetch/issues/1576) by following [this PR](https://github.com/Treverix/node-fetch/commit/625fd385b3a72348266ed3849c8a88391059e9dd?diff=split).  Then we inline node-fetch-cjs into the built version of server.js, so that it will contain our patched version of node-fetch-cjs.
 
 ## Install
 

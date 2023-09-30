@@ -1,0 +1,16 @@
+diff --git a/node_modules/node-fetch-cjs/dist/index.js b/node_modules/node-fetch-cjs/dist/index.js
+index 61011e0..038a50f 100644
+--- a/node_modules/node-fetch-cjs/dist/index.js
++++ b/node_modules/node-fetch-cjs/dist/index.js
+@@ -5583,7 +5583,10 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
+     const onData = (buf) => {
+       properLastChunkReceived = import_node_buffer2.Buffer.compare(buf.slice(-5), LAST_CHUNK) === 0;
+       if (!properLastChunkReceived && previousChunk) {
+-        properLastChunkReceived = import_node_buffer2.Buffer.compare(previousChunk.slice(-3), LAST_CHUNK.slice(0, 3)) === 0 && import_node_buffer2.Buffer.compare(buf.slice(-2), LAST_CHUNK.slice(3)) === 0;
++        if (buf.length < 5) {
++          properLastChunkReceived = import_node_buffer2.Buffer.compare(
++						import_node_buffer2.Buffer.from([...previousChunk.slice(-5), ...buf]).slice(-5), LAST_CHUNK) === 0;
++        }
+       }
+       previousChunk = buf;
+     };
